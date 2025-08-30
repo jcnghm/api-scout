@@ -164,7 +164,7 @@ For APIs that use an API key in headers.
 'auth' => [
     'type' => 'api_key',
     'key' => env('API_KEY'),
-    'header' => 'X-API-Key', // Optional, defaults to X-API-Key
+    'header' => 'X-API-Key',
 ]
 ```
 

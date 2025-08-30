@@ -1,6 +1,6 @@
 # API Scout Test Suite
 
-This directory contains comprehensive tests for the API Scout package.
+This directory contains the ApiScout testing suite.
 
 ## Quick Start
 
@@ -25,7 +25,3 @@ composer test
 ## Documentation
 
 For detailed testing instructions, see [TESTING.md](../TESTING.md) in the project root.
-
-## Coverage
-
-The test suite aims for 90%+ coverage across all source files, with 100% coverage for critical authentication and type detection functionality.

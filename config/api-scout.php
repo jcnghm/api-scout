@@ -94,7 +94,7 @@ return [
     |--------------------------------------------------------------------------
     */
     'type_detection' => [
-        'sample_size' => 5, // Number of records to analyze for type detection
-        'strict_types' => false, // Whether to use strict type checking
+        'sample_size' => 5,
+        'strict_types' => false,
     ]
 ];

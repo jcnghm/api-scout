@@ -171,9 +171,6 @@ class EndpointAnalyzer
         return $value;
     }
 
-    /**
-     * Get the authentication service instance
-     */
     public function getAuthService(): AuthenticationService
     {
         return $this->authService;

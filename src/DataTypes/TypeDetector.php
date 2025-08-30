@@ -99,23 +99,19 @@ class TypeDetector
 
     protected function isDateTime(string $value): bool
     {
-        // Skip if it's already been identified as a date
         if ($this->isDate($value)) {
             return false;
         }
-        
-        // Skip if it's numeric
+
         if (is_numeric($value)) {
             return false;
         }
         
         try {
             $date = new \DateTime($value);
-            // Check if it has time components (hours, minutes, seconds)
             $formatted = $date->format('Y-m-d H:i:s');
             $date_only = $date->format('Y-m-d');
             
-            // If the formatted datetime is different from date-only, it has time
             return $formatted !== $date_only . ' 00:00:00';
         } catch (\Exception $e) {
             return false;

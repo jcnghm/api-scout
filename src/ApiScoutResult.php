@@ -8,12 +8,12 @@ class ApiScoutResult
 {
 
     public function __construct(
-        protected string $endpointKey, protected array $analysis
+        protected string $endpoint_key, protected array $analysis
     ){}
 
     public function getEndpointKey(): string
     {
-        return $this->endpointKey;
+        return $this->endpoint_key;
     }
 
     public function getAnalysis(): array
@@ -55,7 +55,7 @@ class ApiScoutResult
     public function getSummary(): array
     {
         return [
-            'endpoint' => $this->endpointKey,
+            'endpoint' => $this->endpoint_key,
             'type' => $this->isArray() ? 'array' : ($this->isObject() ? 'object' : 'unknown'),
             'total_records' => $this->getTotalRecords(),
             'field_count' => count($this->getFields()),
@@ -85,7 +85,7 @@ class ApiScoutResult
     public function toArray(): array
     {
         return [
-            'endpoint_key' => $this->endpointKey,
+            'endpoint_key' => $this->endpoint_key,
             'analysis' => $this->analysis,
             'summary' => $this->getSummary(),
         ];

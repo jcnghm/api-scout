@@ -15,9 +15,6 @@ class ComponentGenerator
         $this->config = $config['components'] ?? [];
     }
 
-    /**
-     * Generate components for an API result
-     */
     public function generate(ApiScoutResult $result, array $options = []): bool
     {
         $options = array_merge($this->config, $options);
@@ -34,9 +31,6 @@ class ComponentGenerator
         return $success;
     }
 
-    /**
-     * Generate a Blade component
-     */
     protected function generateBladeComponent(ApiScoutResult $result, array $options): bool
     {
         $componentName = Str::studly($result->getEndpointKey());
@@ -52,9 +46,6 @@ class ComponentGenerator
         return File::put($viewPath . '/' . $fileName, $content) !== false;
     }
 
-    /**
-     * Generate a Livewire component
-     */
     protected function generateLivewireComponent(ApiScoutResult $result, array $options): bool
     {
         $componentName = Str::studly($result->getEndpointKey());
@@ -65,11 +56,9 @@ class ComponentGenerator
             File::makeDirectory($outputPath, 0755, true);
         }
 
-        // Generate PHP class
         $phpContent = $this->generateLivewireClass($result, $componentName, $namespace);
         $phpFile = $outputPath . '/' . $componentName . '.php';
 
-        // Generate Blade view
         $viewContent = $this->generateLivewireView($result);
         $viewPath = resource_path('views/livewire/api-scout');
         
@@ -85,9 +74,6 @@ class ComponentGenerator
         return $phpSuccess && $viewSuccess;
     }
 
-    /**
-     * Generate Blade template content
-     */
     protected function generateBladeTemplate(ApiScoutResult $result): string
     {
         $fields = $result->getFields();

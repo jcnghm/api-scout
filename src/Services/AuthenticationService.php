@@ -19,9 +19,6 @@ class AuthenticationService
         ]);
     }
 
-    /**
-     * Get authentication headers for an endpoint
-     */
     public function getAuthHeaders(array $endpoint): array
     {
         $auth = $endpoint['auth'] ?? null;
@@ -44,28 +41,20 @@ class AuthenticationService
         }
     }
 
-    /**
-     * Handle token endpoint authentication
-     */
     protected function getTokenEndpointHeaders(array $auth): array
     {
         $token_key = $auth['token_key'] ?? 'default';
         
-        // Check if we already have a valid token
         if (isset($this->tokens[$token_key]) && !$this->isTokenExpired($this->tokens[$token_key])) {
             return ['Authorization' => 'Bearer ' . $this->tokens[$token_key]['token']];
         }
 
-        // Get a new token
         $token = $this->fetchToken($auth);
         $this->tokens[$token_key] = $token;
 
         return ['Authorization' => 'Bearer ' . $token['token']];
     }
 
-    /**
-     * Fetch a token from the authentication endpoint
-     */
     protected function fetchToken(array $auth): array
     {
         $token_endpoint = $auth['token_endpoint'];
@@ -77,7 +66,6 @@ class AuthenticationService
             'headers' => $headers,
         ];
 
-        // Add credentials based on the auth type
         if (isset($auth['auth_type'])) {
             switch ($auth['auth_type']) {
                 case 'form':
@@ -115,9 +103,6 @@ class AuthenticationService
         }
     }
 
-    /**
-     * Extract token from the authentication response
-     */
     protected function extractTokenFromResponse(array $data, array $auth): array
     {
         $tokenPath = $auth['token_path'] ?? 'access_token';
@@ -141,9 +126,6 @@ class AuthenticationService
         ];
     }
 
-    /**
-     * Get a nested value from an array using dot notation
-     */
     protected function getNestedValue(array $array, string $path)
     {
         $keys = explode('.', $path);
@@ -159,30 +141,20 @@ class AuthenticationService
         return $value;
     }
 
-    /**
-     * Check if a token is expired
-     */
     protected function isTokenExpired(array $token): bool
     {
         if (!isset($token['expires_at'])) {
-            return false; // No expiration, consider it valid
+            return false;
         }
 
-        // Add a 30-second buffer to refresh before actual expiration
         return time() >= ($token['expires_at'] - 30);
     }
 
-    /**
-     * Clear cached tokens
-     */
     public function clearTokens(): void
     {
         $this->tokens = [];
     }
 
-    /**
-     * Get cached token info
-     */
     public function getTokenInfo(string $tokenKey = 'default'): ?array
     {
         return $this->tokens[$tokenKey] ?? null;
