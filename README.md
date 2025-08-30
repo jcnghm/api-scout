@@ -29,7 +29,7 @@ Publish the configuration file:
 php artisan vendor:publish --tag=api-scout-config
 ```
 
-## 🎯 Quick Start
+## ⚙️ Quick Start
 
 ### 1. Add an API Endpoint
 
@@ -180,27 +180,6 @@ return [
 
 ## 📚 Usage Examples
 
-### Programmatic Usage
-
-```php
-use jcnghm\ApiScout\Facades\ApiScout;
-
-// Analyze an endpoint
-$result = ApiScout::analyze('users');
-
-// Get field information
-$fields = $result->getFields();
-$fieldNames = $result->getFieldNames();
-$nullableFields = $result->getNullableFields();
-
-// Get summary
-$summary = $result->getSummary();
-echo "Found {$summary['total_records']} records with {$summary['field_count']} fields";
-
-// Generate components
-$result->generateComponents();
-```
-
 ### Advanced Authentication Setup
 
 ```bash
@@ -244,9 +223,3 @@ This package is open-sourced software licensed under the [MIT license](LICENSE).
 - **Documentation**: [AUTHENTICATION.md](AUTHENTICATION.md) for detailed auth setup
 - **Issues**: [GitHub Issues](https://github.com/jcnghm/api-scout/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/jcnghm/api-scout/discussions)
-
-## 🙏 Acknowledgments
-
-- Built with [Laravel](https://laravel.com)
-- HTTP client powered by [Guzzle](https://github.com/guzzle/guzzle)
-- Testing framework by [PHPUnit](https://phpunit.de)
