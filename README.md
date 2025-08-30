@@ -1,23 +1,23 @@
 # API Scout
 
-A powerful Laravel package for mapping and exploring REST API endpoints with automatic component generation and authentication support.
+A Laravel package for mapping and exploring REST API endpoints with automatic component generation.
 
 [![PHP Version](https://img.shields.io/badge/php-8.1%2B-blue.svg)](https://php.net)
 [![Laravel Version](https://img.shields.io/badge/laravel-10%2B%20%7C%2011%2B-red.svg)](https://laravel.com)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## 🚀 Features
+## Features
 
-- **🔍 API Endpoint Analysis**: Automatically analyze and map API response structures
-- **🔐 Multi-Authentication Support**: Bearer tokens, OAuth2, Basic auth, API keys, and custom token endpoints
-- **📊 Smart Type Detection**: Detect data types including emails, URLs, UUIDs, dates, JSON, and more
-- **⚡ Livewire Component Generation**: Auto-generate Livewire components for your API data
-- **🎨 Blade Template Generation**: Create beautiful Blade views for your API responses
-- **🛠️ Command-Line Interface**: Powerful CLI tools for setup and management
-- **📈 Field Analysis**: Detailed field type analysis with nullable detection
-- **🔄 Token Caching**: Automatic token caching and refresh for authenticated APIs
+- **API Endpoint Analysis**: Automatically analyze and map API response structures
+- **Multi-Authentication Support**: Bearer tokens, OAuth2, Basic auth, API keys, and custom token endpoints
+- **Smart Type Detection**: Detect data types including emails, URLs, UUIDs, dates, JSON, and more
+- **Livewire Component Generation**: Auto-generate Livewire components for your API data
+- **Blade Template Generation**: Create beautiful Blade views for your API responses
+- **Command-Line Interface**: Powerful CLI tools for setup and management
+- **Field Analysis**: Detailed field type analysis with nullable detection
+- **Token Caching**: Automatic token caching and refresh for authenticated APIs
 
-## 📦 Installation
+## Installation
 
 ```bash
 composer require jcnghm/api-scout
@@ -29,7 +29,7 @@ Publish the configuration file:
 php artisan vendor:publish --tag=api-scout-config
 ```
 
-## ⚙️ Quick Start
+## Quick Start
 
 ### 1. Add an API Endpoint
 
@@ -72,7 +72,7 @@ php artisan api-scout:generate users --livewire
 php artisan api-scout:generate --all
 ```
 
-## 🔐 Authentication Support
+## Authentication Support
 
 API Scout supports multiple authentication methods:
 
@@ -123,7 +123,7 @@ API Scout supports multiple authentication methods:
 ]
 ```
 
-## 📊 Data Type Detection
+## Data Type Detection
 
 API Scout automatically detects and categorizes data types:
 
@@ -131,7 +131,7 @@ API Scout automatically detects and categorizes data types:
 - **Specialized Types**: `email`, `url`, `uuid`, `datetime`, `date`
 - **Complex Types**: `numeric_string`, `json_string`, `base64`, `array`, `object`
 
-## 🛠️ Configuration
+## Configuration
 
 Edit `config/api-scout.php` to customize your settings:
 
@@ -169,7 +169,7 @@ return [
 ];
 ```
 
-## 🔧 Available Commands
+## Available Commands
 
 | Command                  | Description           |
 | ------------------------ | --------------------- |
@@ -178,7 +178,7 @@ return [
 | `api-scout:setup-auth`   | Set up authentication |
 | `api-scout:generate`     | Generate components   |
 
-## 📚 Usage Examples
+## Usage Examples
 
 ### Advanced Authentication Setup
 
@@ -206,7 +206,7 @@ composer test
 
 For detailed testing instructions, see [TESTING.md](TESTING.md).
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -214,11 +214,11 @@ For detailed testing instructions, see [TESTING.md](TESTING.md).
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
+## License
 
 This package is open-sourced software licensed under the [MIT license](LICENSE).
 
-## 🆘 Support
+## Support
 
 - **Documentation**: [AUTHENTICATION.md](AUTHENTICATION.md) for detailed auth setup
 - **Issues**: [GitHub Issues](https://github.com/jcnghm/api-scout/issues)
