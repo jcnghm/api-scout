@@ -1,0 +1,55 @@
+{
+  "name": "jcnghm/api-scout",
+  "description": "Laravel package for mapping and exploring REST API endpoints with automatic component generation",
+  "type": "library",
+  "keywords": [
+    "laravel",
+    "api",
+    "mapper",
+    "rest",
+    "livewire",
+    "blade"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Joshua Cunningham",
+      "email": "jcnghmps@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^8.1",
+    "illuminate/support": "^10.0|^11.0",
+    "guzzlehttp/guzzle": "^7.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^8.0|^9.0",
+    "phpunit/phpunit": "^10.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "jcnghm\\ApiScout\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "jcnghm\\ApiScout\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "test:coverage": "phpunit --coverage-html coverage/"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "jcnghm\\ApiScout\\ApiScoutServiceProvider"
+      ],
+      "aliases": {
+        "ApiScout": "jcnghm\\ApiScout\\Facades\\ApiScout"
+      }
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}

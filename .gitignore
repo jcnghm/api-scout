@@ -1,0 +1,8 @@
+/vendor
+composer.lock
+/.vscode
+.env
+.env.backup
+.env.production
+.phpunit.result.cache
+test-endpoint.php
