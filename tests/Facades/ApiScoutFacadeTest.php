@@ -50,7 +50,7 @@ class ApiScoutFacadeTest extends TestCase
 
     public function test_facade_add_endpoint_method()
     {
-        $newEndpoint = [
+        $new = [
             'url' => 'https://jsonplaceholder.typicode.com/posts',
             'method' => 'GET',
             'headers' => [
@@ -58,7 +58,7 @@ class ApiScoutFacadeTest extends TestCase
             ],
         ];
         
-        $result = ApiScout::addEndpoint('posts', $newEndpoint);
+        $result = ApiScout::addEndpoint('posts', $new);
         
         $this->assertInstanceOf(\jcnghm\ApiScout\ApiScout::class, $result);
         
@@ -85,7 +85,7 @@ class ApiScoutFacadeTest extends TestCase
 
     public function test_facade_with_authentication()
     {
-        $protectedEndpoint = [
+        $protected = [
             'url' => 'https://api.example.com/protected',
             'method' => 'GET',
             'headers' => [
@@ -97,7 +97,7 @@ class ApiScoutFacadeTest extends TestCase
             ],
         ];
         
-        ApiScout::addEndpoint('protected', $protectedEndpoint);
+        ApiScout::addEndpoint('protected', $protected);
         
         $endpoints = ApiScout::getEndpoints();
         $this->assertContains('protected', $endpoints);

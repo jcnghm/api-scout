@@ -9,7 +9,7 @@ use jcnghm\ApiScout\Exceptions\ApiScoutException;
 
 class ApiScoutTest extends TestCase
 {
-    protected ApiScout $apiScout;
+    protected ApiScout $api_scout;
 
     protected function setUp(): void
     {
@@ -32,12 +32,12 @@ class ApiScoutTest extends TestCase
             ],
         ]);
         
-        $this->apiScout = new ApiScout();
+        $this->api_scout = new ApiScout();
     }
 
     public function test_get_endpoints()
     {
-        $endpoints = $this->apiScout->getEndpoints();
+        $endpoints = $this->api_scout->getEndpoints();
         
         $this->assertIsArray($endpoints);
         $this->assertCount(2, $endpoints);
@@ -50,12 +50,12 @@ class ApiScoutTest extends TestCase
         $this->expectException(ApiScoutException::class);
         $this->expectExceptionMessage("Endpoint 'nonexistent' not found in configuration");
         
-        $this->apiScout->analyze('nonexistent');
+        $this->api_scout->analyze('nonexistent');
     }
 
     public function test_add_endpoint()
     {
-        $newEndpoint = [
+        $new_endpoint = [
             'url' => 'https://jsonplaceholder.typicode.com/comments',
             'method' => 'GET',
             'headers' => [
@@ -63,15 +63,15 @@ class ApiScoutTest extends TestCase
             ],
         ];
         
-        $this->apiScout->addEndpoint('comments', $newEndpoint);
+        $this->api_scout->addEndpoint('comments', $new_endpoint);
         
-        $endpoints = $this->apiScout->getEndpoints();
+        $endpoints = $this->api_scout->getEndpoints();
         $this->assertContains('comments', $endpoints);
     }
 
     public function test_add_endpoint_with_authentication()
     {
-        $newEndpoint = [
+        $new_endpoint = [
             'url' => 'https://api.example.com/protected',
             'method' => 'GET',
             'headers' => [
@@ -83,9 +83,9 @@ class ApiScoutTest extends TestCase
             ],
         ];
         
-        $this->apiScout->addEndpoint('protected', $newEndpoint);
+        $this->api_scout->addEndpoint('protected', $new_endpoint);
         
-        $endpoints = $this->apiScout->getEndpoints();
+        $endpoints = $this->api_scout->getEndpoints();
         $this->assertContains('protected', $endpoints);
     }
 
@@ -96,17 +96,17 @@ class ApiScoutTest extends TestCase
             // Missing method and headers
         ];
         
-        $this->apiScout->addEndpoint('test', $endpoint);
+        $this->api_scout->addEndpoint('test', $endpoint);
         
         // The endpoint should be added with default values
-        $endpoints = $this->apiScout->getEndpoints();
+        $endpoints = $this->api_scout->getEndpoints();
         $this->assertContains('test', $endpoints);
     }
 
     public function test_analyze_with_default_configuration()
     {
         // Test that endpoints work with default configuration
-        $endpoints = $this->apiScout->getEndpoints();
+        $endpoints = $this->api_scout->getEndpoints();
         $this->assertIsArray($endpoints);
         $this->assertCount(2, $endpoints);
     }
@@ -123,8 +123,8 @@ class ApiScoutTest extends TestCase
         ]);
         
         // Create a new ApiScout instance to pick up the updated config
-        $apiScout = new ApiScout();
-        $endpoints = $apiScout->getEndpoints();
+        $api_scout = new ApiScout();
+        $endpoints = $api_scout->getEndpoints();
         $this->assertContains('custom', $endpoints);
     }
 
@@ -132,8 +132,8 @@ class ApiScoutTest extends TestCase
     {
         $this->app['config']->set('api-scout.endpoints', []);
         
-        $apiScout = new ApiScout();
-        $results = $apiScout->analyzeAll();
+        $api_scout = new ApiScout();
+        $results = $api_scout->analyzeAll();
         
         $this->assertIsArray($results);
         $this->assertEmpty($results);
@@ -141,7 +141,7 @@ class ApiScoutTest extends TestCase
 
     public function test_fluent_interface_for_add_endpoint()
     {
-        $result = $this->apiScout
+        $result = $this->api_scout
             ->addEndpoint('fluent', [
                 'url' => 'https://jsonplaceholder.typicode.com/users/1',
                 'method' => 'GET',
@@ -153,26 +153,26 @@ class ApiScoutTest extends TestCase
         
         $this->assertInstanceOf(ApiScout::class, $result);
         
-        $endpoints = $this->apiScout->getEndpoints();
+        $endpoints = $this->api_scout->getEndpoints();
         $this->assertContains('fluent', $endpoints);
         $this->assertContains('fluent2', $endpoints);
     }
 
     public function test_endpoint_configuration_defaults()
     {
-        $minimalEndpoint = [
+        $minimal_endpoint = [
             'url' => 'https://api.example.com/minimal',
         ];
         
-        $this->apiScout->addEndpoint('minimal', $minimalEndpoint);
+        $this->api_scout->addEndpoint('minimal', $minimal_endpoint);
         
-        $endpoints = $this->apiScout->getEndpoints();
+        $endpoints = $this->api_scout->getEndpoints();
         $this->assertContains('minimal', $endpoints);
     }
 
     public function test_analyze_with_post_method()
     {
-        $postEndpoint = [
+        $post_endpoint = [
             'url' => 'https://jsonplaceholder.typicode.com/posts',
             'method' => 'POST',
             'headers' => [
@@ -181,15 +181,15 @@ class ApiScoutTest extends TestCase
             ],
         ];
         
-        $this->apiScout->addEndpoint('post-test', $postEndpoint);
+        $this->api_scout->addEndpoint('post-test', $post_endpoint);
         
-        $endpoints = $this->apiScout->getEndpoints();
+        $endpoints = $this->api_scout->getEndpoints();
         $this->assertContains('post-test', $endpoints);
     }
 
     public function test_analyze_with_custom_headers()
     {
-        $customHeadersEndpoint = [
+        $custom_headers_endpoint = [
             'url' => 'https://jsonplaceholder.typicode.com/users',
             'method' => 'GET',
             'headers' => [
@@ -199,9 +199,9 @@ class ApiScoutTest extends TestCase
             ],
         ];
         
-        $this->apiScout->addEndpoint('custom-headers', $customHeadersEndpoint);
+        $this->api_scout->addEndpoint('custom-headers', $custom_headers_endpoint);
         
-        $endpoints = $this->apiScout->getEndpoints();
+        $endpoints = $this->api_scout->getEndpoints();
         $this->assertContains('custom-headers', $endpoints);
     }
 }

@@ -137,15 +137,15 @@ class ComponentGenerator
     /**
      * Generate Livewire component class
      */
-    protected function generateLivewireClass(ApiScoutResult $result, string $componentName, string $namespace): string
+    protected function generateLivewireClass(ApiScoutResult $result, string $component_name, string $namespace): string
     {
-        $endpointKey = $result->getEndpointKey();
+        $endpoint_key = $result->getEndpointKey();
         
         $class = "<?php\n\n";
         $class .= "namespace {$namespace};\n\n";
         $class .= "use Livewire\\Component;\n";
         $class .= "use YourVendor\\ApiScout\\Facades\\ApiScout;\n\n";
-        $class .= "class {$componentName} extends Component\n";
+        $class .= "class {$component_name} extends Component\n";
         $class .= "{\n";
         $class .= "    public \$data = [];\n";
         $class .= "    public \$loading = false;\n";
@@ -159,7 +159,7 @@ class ComponentGenerator
         $class .= "        \$this->loading = true;\n";
         $class .= "        \$this->error = null;\n\n";
         $class .= "        try {\n";
-        $class .= "            \$result = ApiScout::analyze('{$endpointKey}');\n";
+        $class .= "            \$result = ApiScout::analyze('{$endpoint_key}');\n";
         $class .= "            \$this->data = \$result->getSampleData();\n";
         $class .= "        } catch (\\Exception \$e) {\n";
         $class .= "            \$this->error = \$e->getMessage();\n";
@@ -172,7 +172,7 @@ class ComponentGenerator
         $class .= "    }\n\n";
         $class .= "    public function render()\n";
         $class .= "    {\n";
-        $class .= "        return view('livewire.api-scout." . Str::kebab($endpointKey) . "');\n";
+        $class .= "        return view('livewire.api-scout." . Str::kebab($endpoint_key) . "');\n";
         $class .= "    }\n";
         $class .= "}\n";
 
@@ -185,12 +185,12 @@ class ComponentGenerator
     protected function generateLivewireView(ApiScoutResult $result): string
     {
         $fields = $result->getFields();
-        $endpointKey = $result->getEndpointKey();
+        $endpoint_key = $result->getEndpointKey();
         
-        $template = "{{-- Generated Livewire component for {$endpointKey} --}}\n";
+        $template = "{{-- Generated Livewire component for {$endpoint_key} --}}\n";
         $template .= "<div>\n";
         $template .= "    <div class=\"mb-4 flex justify-between items-center\">\n";
-        $template .= "        <h3 class=\"text-lg font-semibold\">" . Str::title(str_replace(['_', '-'], ' ', $endpointKey)) . "</h3>\n";
+        $template .= "        <h3 class=\"text-lg font-semibold\">" . Str::title(str_replace(['_', '-'], ' ', $endpoint_key)) . "</h3>\n";
         $template .= "        <button wire:click=\"refresh\" class=\"bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600\">\n";
         $template .= "            @if(\$loading) Refreshing... @else Refresh @endif\n";
         $template .= "        </button>\n";
@@ -215,8 +215,8 @@ class ComponentGenerator
             $template .= "                <thead>\n";
             $template .= "                    <tr class=\"bg-gray-100\">\n";
 
-            foreach ($fields as $fieldName => $field) {
-                $template .= "                        <th class=\"px-4 py-2 border-b text-left font-medium\">" . Str::title(str_replace('_', ' ', $fieldName)) . "</th>\n";
+            foreach ($fields as $name => $field) {
+                $template .= "                        <th class=\"px-4 py-2 border-b text-left font-medium\">" . Str::title(str_replace('_', ' ', $name)) . "</th>\n";
             }
 
             $template .= "                    </tr>\n";
@@ -225,8 +225,8 @@ class ComponentGenerator
             $template .= "                    @foreach(\$data as \$item)\n";
             $template .= "                        <tr class=\"hover:bg-gray-50\">\n";
 
-            foreach ($fields as $fieldName => $field) {
-                $template .= "                            <td class=\"px-4 py-2 border-b\">{{ \$item['{$fieldName}'] ?? 'N/A' }}</td>\n";
+            foreach ($fields as $name => $field) {
+                $template .= "                            <td class=\"px-4 py-2 border-b\">{{ \$item['{$name}'] ?? 'N/A' }}</td>\n";
             }
 
             $template .= "                        </tr>\n";
@@ -237,10 +237,10 @@ class ComponentGenerator
         } else {
             $template .= "        <div class=\"bg-white border border-gray-200 rounded-lg p-6\">\n";
 
-            foreach ($fields as $fieldName => $field) {
+            foreach ($fields as $name => $field) {
                 $template .= "            <div class=\"flex justify-between py-2 border-b border-gray-100 last:border-b-0\">\n";
-                $template .= "                <span class=\"font-medium text-gray-700\">" . Str::title(str_replace('_', ' ', $fieldName)) . ":</span>\n";
-                $template .= "                <span class=\"text-gray-900\">{{ \$data['{$fieldName}'] ?? 'N/A' }}</span>\n";
+                $template .= "                <span class=\"font-medium text-gray-700\">" . Str::title(str_replace('_', ' ', $name)) . ":</span>\n";
+                $template .= "                <span class=\"text-gray-900\">{{ \$data['{$name}'] ?? 'N/A' }}</span>\n";
                 $template .= "            </div>\n";
             }
 

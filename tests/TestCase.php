@@ -16,7 +16,6 @@ abstract class TestCase extends Orchestra
 
     protected function getEnvironmentSetUp($app)
     {
-        // Set up default database to use sqlite :memory:
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
             'driver'   => 'sqlite',
@@ -24,7 +23,6 @@ abstract class TestCase extends Orchestra
             'prefix'   => '',
         ]);
 
-        // Set up API Scout config
         $app['config']->set('api-scout', [
             'timeout' => 30,
             'connect_timeout' => 10,

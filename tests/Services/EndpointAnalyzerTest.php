@@ -35,7 +35,7 @@ class EndpointAnalyzerTest extends TestCase
 
     public function test_analyzes_simple_object_response()
     {
-        $mockResponse = new Response(200, [], json_encode([
+        $mock_response = new Response(200, [], json_encode([
             'id' => 1,
             'name' => 'John Doe',
             'email' => 'john@example.com',
@@ -43,15 +43,15 @@ class EndpointAnalyzerTest extends TestCase
             'created_at' => '2023-12-25 10:30:00',
         ]));
 
-        $mock = new MockHandler([$mockResponse]);
-        $handlerStack = HandlerStack::create($mock);
+        $mock = new MockHandler([$mock_response]);
+        $handler_stack = HandlerStack::create($mock);
         
-        $client = new Client(['handler' => $handlerStack]);
+        $client = new Client(['handler' => $handler_stack]);
         
         $reflection = new \ReflectionClass($this->analyzer);
-        $clientProperty = $reflection->getProperty('client');
-        $clientProperty->setAccessible(true);
-        $clientProperty->setValue($this->analyzer, $client);
+        $client_property = $reflection->getProperty('client');
+        $client_property->setAccessible(true);
+        $client_property->setValue($this->analyzer, $client);
 
         $endpoint = [
             'url' => 'https://api.example.com/user/1',
@@ -72,7 +72,7 @@ class EndpointAnalyzerTest extends TestCase
 
     public function test_analyzes_array_response()
     {
-        $mockResponse = new Response(200, [], json_encode([
+        $mock_response = new Response(200, [], json_encode([
             [
                 'id' => 1,
                 'name' => 'John Doe',
@@ -90,15 +90,15 @@ class EndpointAnalyzerTest extends TestCase
             ],
         ]));
 
-        $mock = new MockHandler([$mockResponse]);
-        $handlerStack = HandlerStack::create($mock);
+        $mock = new MockHandler([$mock_response]);
+        $handler_stack = HandlerStack::create($mock);
         
-        $client = new Client(['handler' => $handlerStack]);
+        $client = new Client(['handler' => $handler_stack]);
         
         $reflection = new \ReflectionClass($this->analyzer);
-        $clientProperty = $reflection->getProperty('client');
-        $clientProperty->setAccessible(true);
-        $clientProperty->setValue($this->analyzer, $client);
+        $client_property = $reflection->getProperty('client');
+        $client_property->setAccessible(true);
+        $client_property->setValue($this->analyzer, $client);
 
         $endpoint = [
             'url' => 'https://api.example.com/users',
@@ -119,17 +119,17 @@ class EndpointAnalyzerTest extends TestCase
 
     public function test_analyzes_empty_array_response()
     {
-        $mockResponse = new Response(200, [], json_encode([]));
+        $mock_response = new Response(200, [], json_encode([]));
 
-        $mock = new MockHandler([$mockResponse]);
-        $handlerStack = HandlerStack::create($mock);
+        $mock = new MockHandler([$mock_response]);
+        $handler_stack = HandlerStack::create($mock);
         
-        $client = new Client(['handler' => $handlerStack]);
+        $client = new Client(['handler' => $handler_stack]);
         
         $reflection = new \ReflectionClass($this->analyzer);
-        $clientProperty = $reflection->getProperty('client');
-        $clientProperty->setAccessible(true);
-        $clientProperty->setValue($this->analyzer, $client);
+        $client_property = $reflection->getProperty('client');
+        $client_property->setAccessible(true);
+        $client_property->setValue($this->analyzer, $client);
 
         $endpoint = [
             'url' => 'https://api.example.com/users',
@@ -149,7 +149,7 @@ class EndpointAnalyzerTest extends TestCase
 
     public function test_analyzes_fields_with_different_types()
     {
-        $mockResponse = new Response(200, [], json_encode([
+        $mock_response = new Response(200, [], json_encode([
             'id' => 1,
             'name' => 'John Doe',
             'email' => 'john@example.com',
@@ -163,15 +163,15 @@ class EndpointAnalyzerTest extends TestCase
             'settings' => null,
         ]));
 
-        $mock = new MockHandler([$mockResponse]);
-        $handlerStack = HandlerStack::create($mock);
+        $mock = new MockHandler([$mock_response]);
+        $handler_stack = HandlerStack::create($mock);
         
-        $client = new Client(['handler' => $handlerStack]);
+        $client = new Client(['handler' => $handler_stack]);
         
         $reflection = new \ReflectionClass($this->analyzer);
-        $clientProperty = $reflection->getProperty('client');
-        $clientProperty->setAccessible(true);
-        $clientProperty->setValue($this->analyzer, $client);
+        $client_property = $reflection->getProperty('client');
+        $client_property->setAccessible(true);
+        $client_property->setValue($this->analyzer, $client);
 
         $endpoint = [
             'url' => 'https://api.example.com/user/1',
@@ -213,7 +213,7 @@ class EndpointAnalyzerTest extends TestCase
 
     // public function test_analyzes_array_with_varying_fields()
     // {
-    //     $mockResponse = new Response(200, [], json_encode([
+    //     $mock_response = new Response(200, [], json_encode([
     //         [
     //             'id' => 1,
     //             'name' => 'John Doe',
@@ -235,15 +235,15 @@ class EndpointAnalyzerTest extends TestCase
     //         ],
     //     ]));
 
-    //     $mock = new MockHandler([$mockResponse]);
-    //     $handlerStack = HandlerStack::create($mock);
+    //     $mock = new MockHandler([$mock_response]);
+    //     $handler_stack = HandlerStack::create($mock);
         
-    //     $client = new Client(['handler' => $handlerStack]);
+    //     $client = new Client(['handler' => $handler_stack]);
         
     //     $reflection = new \ReflectionClass($this->analyzer);
-    //     $clientProperty = $reflection->getProperty('client');
-    //     $clientProperty->setAccessible(true);
-    //     $clientProperty->setValue($this->analyzer, $client);
+    //     $client_property = $reflection->getProperty('client');
+    //     $client_property->setAccessible(true);
+    //     $client_property->setValue($this->analyzer, $client);
 
     //     $endpoint = [
     //         'url' => 'https://api.example.com/users',
@@ -272,17 +272,17 @@ class EndpointAnalyzerTest extends TestCase
 
     public function test_handles_invalid_json_response()
     {
-        $mockResponse = new Response(200, [], 'invalid json');
+        $mock_response = new Response(200, [], 'invalid json');
 
-        $mock = new MockHandler([$mockResponse]);
-        $handlerStack = HandlerStack::create($mock);
+        $mock = new MockHandler([$mock_response]);
+        $handler_stack = HandlerStack::create($mock);
         
-        $client = new Client(['handler' => $handlerStack]);
+        $client = new Client(['handler' => $handler_stack]);
         
         $reflection = new \ReflectionClass($this->analyzer);
-        $clientProperty = $reflection->getProperty('client');
-        $clientProperty->setAccessible(true);
-        $clientProperty->setValue($this->analyzer, $client);
+        $client_property = $reflection->getProperty('client');
+        $client_property->setAccessible(true);
+        $client_property->setValue($this->analyzer, $client);
 
         $endpoint = [
             'url' => 'https://api.example.com/users',
@@ -298,19 +298,19 @@ class EndpointAnalyzerTest extends TestCase
 
     public function test_handles_http_error()
     {
-        $mockResponse = new Response(404, [], 'Not Found');
+        $mock_response = new Response(404, [], 'Not Found');
 
         $mock = new MockHandler([
-            new RequestException('Not Found', new Request('GET', 'test'), $mockResponse)
+            new RequestException('Not Found', new Request('GET', 'test'), $mock_response)
         ]);
-        $handlerStack = HandlerStack::create($mock);
+        $handler_stack = HandlerStack::create($mock);
         
-        $client = new Client(['handler' => $handlerStack]);
+        $client = new Client(['handler' => $handler_stack]);
         
         $reflection = new \ReflectionClass($this->analyzer);
-        $clientProperty = $reflection->getProperty('client');
-        $clientProperty->setAccessible(true);
-        $clientProperty->setValue($this->analyzer, $client);
+        $client_property = $reflection->getProperty('client');
+        $client_property->setAccessible(true);
+        $client_property->setValue($this->analyzer, $client);
 
         $endpoint = [
             'url' => 'https://api.example.com/users',
@@ -326,21 +326,21 @@ class EndpointAnalyzerTest extends TestCase
 
     public function test_analyzes_with_authentication()
     {
-        $mockResponse = new Response(200, [], json_encode([
+        $mock_response = new Response(200, [], json_encode([
             'id' => 1,
             'name' => 'John Doe',
             'email' => 'john@example.com',
         ]));
 
-        $mock = new MockHandler([$mockResponse]);
-        $handlerStack = HandlerStack::create($mock);
+        $mock = new MockHandler([$mock_response]);
+        $handler_stack = HandlerStack::create($mock);
         
-        $client = new Client(['handler' => $handlerStack]);
+        $client = new Client(['handler' => $handler_stack]);
         
         $reflection = new \ReflectionClass($this->analyzer);
-        $clientProperty = $reflection->getProperty('client');
-        $clientProperty->setAccessible(true);
-        $clientProperty->setValue($this->analyzer, $client);
+        $client_property = $reflection->getProperty('client');
+        $client_property->setAccessible(true);
+        $client_property->setValue($this->analyzer, $client);
 
         $endpoint = [
             'url' => 'https://api.example.com/user/1',
@@ -363,7 +363,7 @@ class EndpointAnalyzerTest extends TestCase
 
     public function test_sample_data_limitation()
     {
-        $mockResponse = new Response(200, [], json_encode([
+        $mock_response = new Response(200, [], json_encode([
             ['id' => 1, 'name' => 'User 1'],
             ['id' => 2, 'name' => 'User 2'],
             ['id' => 3, 'name' => 'User 3'],
@@ -371,15 +371,15 @@ class EndpointAnalyzerTest extends TestCase
             ['id' => 5, 'name' => 'User 5'],
         ]));
 
-        $mock = new MockHandler([$mockResponse]);
-        $handlerStack = HandlerStack::create($mock);
+        $mock = new MockHandler([$mock_response]);
+        $handler_stack = HandlerStack::create($mock);
         
-        $client = new Client(['handler' => $handlerStack]);
+        $client = new Client(['handler' => $handler_stack]);
         
         $reflection = new \ReflectionClass($this->analyzer);
-        $clientProperty = $reflection->getProperty('client');
-        $clientProperty->setAccessible(true);
-        $clientProperty->setValue($this->analyzer, $client);
+        $client_property = $reflection->getProperty('client');
+        $client_property->setAccessible(true);
+        $client_property->setValue($this->analyzer, $client);
 
         $endpoint = [
             'url' => 'https://api.example.com/users',
@@ -395,8 +395,8 @@ class EndpointAnalyzerTest extends TestCase
 
     public function test_get_auth_service()
     {
-        $authService = $this->analyzer->getAuthService();
+        $auth_service = $this->analyzer->getAuthService();
         
-        $this->assertInstanceOf(\jcnghm\ApiScout\Services\AuthenticationService::class, $authService);
+        $this->assertInstanceOf(\jcnghm\ApiScout\Services\AuthenticationService::class, $auth_service);
     }
 }

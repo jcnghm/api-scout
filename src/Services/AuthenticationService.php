@@ -105,28 +105,28 @@ class AuthenticationService
 
     protected function extractTokenFromResponse(array $data, array $auth): array
     {
-        $tokenPath = $auth['token_path'] ?? 'access_token';
-        $expiresInPath = $auth['expires_in_path'] ?? 'expires_in';
-        $tokenTypePath = $auth['token_type_path'] ?? 'token_type';
+        $token_path = $auth['token_path'] ?? 'access_token';
+        $expires_in_path = $auth['expires_in_path'] ?? 'expires_in';
+        $token_type_path = $auth['token_type_path'] ?? 'token_type';
 
-        $token = $this->getNestedValue($data, $tokenPath);
+        $token = $this->getNestedValue($data, $token_path);
         
         if (!$token) {
-            throw new ApiScoutException("Token not found in response at path: {$tokenPath}");
+            throw new ApiScoutException("Token not found in response at path: {$token_path}");
         }
 
-        $expiresIn = $this->getNestedValue($data, $expiresInPath);
-        $tokenType = $this->getNestedValue($data, $tokenTypePath) ?? 'Bearer';
+        $expires_in = $this->getNestedValue($data, $expires_in_path);
+        $token_type = $this->getNestedValue($data, $token_type_path) ?? 'Bearer';
 
         return [
             'token' => $token,
-            'token_type' => $tokenType,
-            'expires_in' => $expiresIn,
-            'expires_at' => $expiresIn ? time() + $expiresIn : null,
+            'token_type' => $token_type,
+            'expires_in' => $expires_in,
+            'expires_at' => $expires_in ? time() + $expires_in : null,
         ];
     }
 
-    protected function getNestedValue(array $array, string $path)
+    protected function getNestedValue(array $array, string $path): mixed
     {
         $keys = explode('.', $path);
         $value = $array;
@@ -155,8 +155,8 @@ class AuthenticationService
         $this->tokens = [];
     }
 
-    public function getTokenInfo(string $tokenKey = 'default'): ?array
+    public function getTokenInfo(string $key = 'default'): ?array
     {
-        return $this->tokens[$tokenKey] ?? null;
+        return $this->tokens[$key] ?? null;
     }
 }

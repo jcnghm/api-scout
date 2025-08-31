@@ -44,7 +44,6 @@ class SetupAuthCommand extends Command
         $this->info("Setting up authentication for endpoint: {$endpoint_key}");
         $this->newLine();
 
-        // Check if we have enough options to proceed non-interactively
         $auth_type = $this->option('type');
         $is_interactive = $this->option('interactive') || !$this->hasRequiredOptions($auth_type);
 
@@ -157,7 +156,7 @@ class SetupAuthCommand extends Command
     {
         return [
             'type' => 'bearer',
-            'token' => $this->option('password'), // Using password option for bearer token
+            'token' => $this->option('password'),
         ];
     }
 
@@ -309,7 +308,6 @@ class SetupAuthCommand extends Command
 
         $config['endpoints'][$endpoint_key]['auth'] = $auth_config;
 
-        // Write the updated configuration back to the file
         $config_content = "<?php\n\nreturn " . var_export($config, true) . ";\n";
         file_put_contents($config_path, $config_content);
 
@@ -323,10 +321,9 @@ class SetupAuthCommand extends Command
 
         try {
             $service = new AuthenticationService(config('api-scout'));
-            
-            // Create a mock endpoint config for testing
+
             $test_endpoint = [
-                'url' => 'https://httpbin.org/bearer', // Test endpoint
+                'url' => 'https://httpbin.org/bearer',
                 'auth' => $auth_config,
             ];
 

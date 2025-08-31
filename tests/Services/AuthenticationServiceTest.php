@@ -13,19 +13,19 @@ use GuzzleHttp\Middleware;
 
 class AuthenticationServiceTest extends TestCase
 {
-    protected AuthenticationService $authService;
+    protected AuthenticationService $auth_service;
     protected array $container = [];
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->authService = new AuthenticationService();
+        $this->auth_service = new AuthenticationService();
     }
 
     public function test_get_auth_headers_returns_empty_array_for_no_auth()
     {
         $endpoint = ['url' => 'https://example.com/api'];
-        $headers = $this->authService->getAuthHeaders($endpoint);
+        $headers = $this->auth_service->getAuthHeaders($endpoint);
         
         $this->assertEmpty($headers);
     }
@@ -40,7 +40,7 @@ class AuthenticationServiceTest extends TestCase
             ]
         ];
 
-        $headers = $this->authService->getAuthHeaders($endpoint);
+        $headers = $this->auth_service->getAuthHeaders($endpoint);
         
         $this->assertEquals(['Authorization' => 'Bearer test-token-123'], $headers);
     }
@@ -56,10 +56,10 @@ class AuthenticationServiceTest extends TestCase
             ]
         ];
 
-        $headers = $this->authService->getAuthHeaders($endpoint);
-        $expectedAuth = 'Basic ' . base64_encode('testuser:testpass');
+        $headers = $this->auth_service->getAuthHeaders($endpoint);
+        $expected_auth = 'Basic ' . base64_encode('testuser:testpass');
         
-        $this->assertEquals(['Authorization' => $expectedAuth], $headers);
+        $this->assertEquals(['Authorization' => $expected_auth], $headers);
     }
 
     public function test_get_auth_headers_for_api_key()
@@ -73,7 +73,7 @@ class AuthenticationServiceTest extends TestCase
             ]
         ];
 
-        $headers = $this->authService->getAuthHeaders($endpoint);
+        $headers = $this->auth_service->getAuthHeaders($endpoint);
         
         $this->assertEquals(['X-API-Key' => 'test-api-key'], $headers);
     }
@@ -88,7 +88,7 @@ class AuthenticationServiceTest extends TestCase
             ]
         ];
 
-        $headers = $this->authService->getAuthHeaders($endpoint);
+        $headers = $this->auth_service->getAuthHeaders($endpoint);
         
         $this->assertEquals(['X-API-Key' => 'test-api-key'], $headers);
     }
@@ -96,26 +96,26 @@ class AuthenticationServiceTest extends TestCase
     public function test_token_endpoint_authentication_with_mock_client()
     {
         // Create a mock response for token endpoint
-        $mockResponse = new Response(200, [], json_encode([
+        $mock_response = new Response(200, [], json_encode([
             'access_token' => 'mock-token-123',
             'expires_in' => 3600,
             'token_type' => 'Bearer'
         ]));
 
-        $mock = new MockHandler([$mockResponse]);
-        $handlerStack = HandlerStack::create($mock);
+        $mock = new MockHandler([$mock_response]);
+        $handler_stack = HandlerStack::create($mock);
         
         // Add middleware to capture requests
-        $handlerStack->push(Middleware::history($this->container));
+        $handler_stack->push(Middleware::history($this->container));
         
-        $client = new Client(['handler' => $handlerStack]);
+        $client = new Client(['handler' => $handler_stack]);
         
         // Create auth service with mock client
-        $authService = new AuthenticationService();
-        $reflection = new \ReflectionClass($authService);
-        $clientProperty = $reflection->getProperty('client');
-        $clientProperty->setAccessible(true);
-        $clientProperty->setValue($authService, $client);
+        $auth_service = new AuthenticationService();
+        $reflection = new \ReflectionClass($auth_service);
+        $client_property = $reflection->getProperty('client');
+        $client_property->setAccessible(true);
+        $client_property->setValue($auth_service, $client);
 
         $endpoint = [
             'url' => 'https://example.com/api',
@@ -135,7 +135,7 @@ class AuthenticationServiceTest extends TestCase
             ]
         ];
 
-        $headers = $authService->getAuthHeaders($endpoint);
+        $headers = $auth_service->getAuthHeaders($endpoint);
         
         $this->assertEquals(['Authorization' => 'Bearer mock-token-123'], $headers);
         
@@ -148,23 +148,23 @@ class AuthenticationServiceTest extends TestCase
 
     public function test_token_endpoint_authentication_with_json_credentials()
     {
-        $mockResponse = new Response(200, [], json_encode([
+        $mock_response = new Response(200, [], json_encode([
             'access_token' => 'mock-token-123',
             'expires_in' => 3600,
             'token_type' => 'Bearer'
         ]));
 
-        $mock = new MockHandler([$mockResponse]);
-        $handlerStack = HandlerStack::create($mock);
-        $handlerStack->push(Middleware::history($this->container));
+        $mock = new MockHandler([$mock_response]);
+        $handler_stack = HandlerStack::create($mock);
+        $handler_stack->push(Middleware::history($this->container));
         
-        $client = new Client(['handler' => $handlerStack]);
+        $client = new Client(['handler' => $handler_stack]);
         
-        $authService = new AuthenticationService();
-        $reflection = new \ReflectionClass($authService);
-        $clientProperty = $reflection->getProperty('client');
-        $clientProperty->setAccessible(true);
-        $clientProperty->setValue($authService, $client);
+        $auth_service = new AuthenticationService();
+        $reflection = new \ReflectionClass($auth_service);
+        $client_property = $reflection->getProperty('client');
+        $client_property->setAccessible(true);
+        $client_property->setValue($auth_service, $client);
 
         $endpoint = [
             'url' => 'https://example.com/api',
@@ -181,7 +181,7 @@ class AuthenticationServiceTest extends TestCase
             ]
         ];
 
-        $headers = $authService->getAuthHeaders($endpoint);
+        $headers = $auth_service->getAuthHeaders($endpoint);
         
         $this->assertEquals(['Authorization' => 'Bearer mock-token-123'], $headers);
         
@@ -192,7 +192,7 @@ class AuthenticationServiceTest extends TestCase
 
     public function test_token_endpoint_authentication_with_nested_response()
     {
-        $mockResponse = new Response(200, [], json_encode([
+        $mock_response = new Response(200, [], json_encode([
             'data' => [
                 'access_token' => 'mock-token-123',
                 'expires_in' => 3600,
@@ -200,17 +200,17 @@ class AuthenticationServiceTest extends TestCase
             ]
         ]));
 
-        $mock = new MockHandler([$mockResponse]);
-        $handlerStack = HandlerStack::create($mock);
-        $handlerStack->push(Middleware::history($this->container));
+        $mock = new MockHandler([$mock_response]);
+        $handler_stack = HandlerStack::create($mock);
+        $handler_stack->push(Middleware::history($this->container));
         
-        $client = new Client(['handler' => $handlerStack]);
+        $client = new Client(['handler' => $handler_stack]);
         
-        $authService = new AuthenticationService();
-        $reflection = new \ReflectionClass($authService);
-        $clientProperty = $reflection->getProperty('client');
-        $clientProperty->setAccessible(true);
-        $clientProperty->setValue($authService, $client);
+        $auth_service = new AuthenticationService();
+        $reflection = new \ReflectionClass($auth_service);
+        $client_property = $reflection->getProperty('client');
+        $client_property->setAccessible(true);
+        $client_property->setValue($auth_service, $client);
 
         $endpoint = [
             'url' => 'https://example.com/api',
@@ -230,30 +230,30 @@ class AuthenticationServiceTest extends TestCase
             ]
         ];
 
-        $headers = $authService->getAuthHeaders($endpoint);
+        $headers = $auth_service->getAuthHeaders($endpoint);
         
         $this->assertEquals(['Authorization' => 'Bearer mock-token-123'], $headers);
     }
 
     public function test_token_endpoint_authentication_with_password_grant()
     {
-        $mockResponse = new Response(200, [], json_encode([
+        $mock_response = new Response(200, [], json_encode([
             'access_token' => 'mock-token-123',
             'expires_in' => 3600,
             'token_type' => 'Bearer'
         ]));
 
-        $mock = new MockHandler([$mockResponse]);
-        $handlerStack = HandlerStack::create($mock);
-        $handlerStack->push(Middleware::history($this->container));
+        $mock = new MockHandler([$mock_response]);
+        $handler_stack = HandlerStack::create($mock);
+        $handler_stack->push(Middleware::history($this->container));
         
-        $client = new Client(['handler' => $handlerStack]);
+        $client = new Client(['handler' => $handler_stack]);
         
-        $authService = new AuthenticationService();
-        $reflection = new \ReflectionClass($authService);
-        $clientProperty = $reflection->getProperty('client');
-        $clientProperty->setAccessible(true);
-        $clientProperty->setValue($authService, $client);
+        $auth_service = new AuthenticationService();
+        $reflection = new \ReflectionClass($auth_service);
+        $client_property = $reflection->getProperty('client');
+        $client_property->setAccessible(true);
+        $client_property->setValue($auth_service, $client);
 
         $endpoint = [
             'url' => 'https://example.com/api',
@@ -272,30 +272,30 @@ class AuthenticationServiceTest extends TestCase
             ]
         ];
 
-        $headers = $authService->getAuthHeaders($endpoint);
+        $headers = $auth_service->getAuthHeaders($endpoint);
         
         $this->assertEquals(['Authorization' => 'Bearer mock-token-123'], $headers);
     }
 
     public function test_token_caching_and_reuse()
     {
-        $mockResponse = new Response(200, [], json_encode([
+        $mock_response = new Response(200, [], json_encode([
             'access_token' => 'mock-token-123',
             'expires_in' => 3600,
             'token_type' => 'Bearer'
         ]));
 
-        $mock = new MockHandler([$mockResponse, $mockResponse]); // Two responses for two calls
-        $handlerStack = HandlerStack::create($mock);
-        $handlerStack->push(Middleware::history($this->container));
+        $mock = new MockHandler([$mock_response, $mock_response]); // Two responses for two calls
+        $handler_stack = HandlerStack::create($mock);
+        $handler_stack->push(Middleware::history($this->container));
         
-        $client = new Client(['handler' => $handlerStack]);
+        $client = new Client(['handler' => $handler_stack]);
         
-        $authService = new AuthenticationService();
-        $reflection = new \ReflectionClass($authService);
-        $clientProperty = $reflection->getProperty('client');
-        $clientProperty->setAccessible(true);
-        $clientProperty->setValue($authService, $client);
+        $auth_service = new AuthenticationService();
+        $reflection = new \ReflectionClass($auth_service);
+        $client_property = $reflection->getProperty('client');
+        $client_property->setAccessible(true);
+        $client_property->setValue($auth_service, $client);
 
         $endpoint = [
             'url' => 'https://example.com/api',
@@ -314,35 +314,36 @@ class AuthenticationServiceTest extends TestCase
         ];
 
         // First call - should make token request
-        $headers1 = $authService->getAuthHeaders($endpoint);
+        $headers1 = $auth_service->getAuthHeaders($endpoint);
         $this->assertEquals(['Authorization' => 'Bearer mock-token-123'], $headers1);
         $this->assertCount(1, $this->container);
 
         // Second call - should reuse cached token
-        $headers2 = $authService->getAuthHeaders($endpoint);
+        $headers2 = $auth_service->getAuthHeaders($endpoint);
         $this->assertEquals(['Authorization' => 'Bearer mock-token-123'], $headers2);
         $this->assertCount(1, $this->container); // Still only one request
     }
 
+    // TODO FIX THIS TEST
     // public function test_token_expiration_and_refresh()
     // {
-    //     $mockResponse = new Response(200, [], json_encode([
+    //     $mock_response = new Response(200, [], json_encode([
     //         'access_token' => 'mock-token-123',
     //         'expires_in' => 1, // Very short expiration
     //         'token_type' => 'Bearer'
     //     ]));
 
-    //     $mock = new MockHandler([$mockResponse, $mockResponse]); // Two responses for two calls
-    //     $handlerStack = HandlerStack::create($mock);
-    //     $handlerStack->push(Middleware::history($this->container));
+    //     $mock = new MockHandler([$mock_response, $mock_response]); // Two responses for two calls
+    //     $handler_stack = HandlerStack::create($mock);
+    //     $handler_stack->push(Middleware::history($this->container));
         
-    //     $client = new Client(['handler' => $handlerStack]);
+    //     $client = new Client(['handler' => $handler_stack]);
         
-    //     $authService = new AuthenticationService();
-    //     $reflection = new \ReflectionClass($authService);
-    //     $clientProperty = $reflection->getProperty('client');
-    //     $clientProperty->setAccessible(true);
-    //     $clientProperty->setValue($authService, $client);
+    //     $auth_service = new AuthenticationService();
+    //     $reflection = new \ReflectionClass($auth_service);
+    //     $client_property = $reflection->getProperty('client');
+    //     $client_property->setAccessible(true);
+    //     $client_property->setValue($auth_service, $client);
 
     //     $endpoint = [
     //         'url' => 'https://example.com/api',
@@ -363,35 +364,35 @@ class AuthenticationServiceTest extends TestCase
     //     ];
 
     //     // First call
-    //     $headers1 = $authService->getAuthHeaders($endpoint);
+    //     $headers1 = $auth_service->getAuthHeaders($endpoint);
     //     $this->assertEquals(['Authorization' => 'Bearer mock-token-123'], $headers1);
     //     $this->assertCount(1, $this->container);
 
     //     // Manually clear tokens to simulate expiration
-    //     $authService->clearTokens();
+    //     $auth_service->clearTokens();
 
     //     // Second call - should refresh token
-    //     $headers2 = $authService->getAuthHeaders($endpoint);
+    //     $headers2 = $auth_service->getAuthHeaders($endpoint);
     //     $this->assertEquals(['Authorization' => 'Bearer mock-token-123'], $headers2);
     //     $this->assertCount(2, $this->container); // Two requests made
     // }
 
     public function test_token_not_found_in_response()
     {
-        $mockResponse = new Response(200, [], json_encode([
+        $mock_response = new Response(200, [], json_encode([
             'error' => 'Invalid credentials'
         ]));
 
-        $mock = new MockHandler([$mockResponse]);
-        $handlerStack = HandlerStack::create($mock);
+        $mock = new MockHandler([$mock_response]);
+        $handler_stack = HandlerStack::create($mock);
         
-        $client = new Client(['handler' => $handlerStack]);
+        $client = new Client(['handler' => $handler_stack]);
         
-        $authService = new AuthenticationService();
-        $reflection = new \ReflectionClass($authService);
-        $clientProperty = $reflection->getProperty('client');
-        $clientProperty->setAccessible(true);
-        $clientProperty->setValue($authService, $client);
+        $auth_service = new AuthenticationService();
+        $reflection = new \ReflectionClass($auth_service);
+        $client_property = $reflection->getProperty('client');
+        $client_property->setAccessible(true);
+        $client_property->setValue($auth_service, $client);
 
         $endpoint = [
             'url' => 'https://example.com/api',
@@ -411,23 +412,23 @@ class AuthenticationServiceTest extends TestCase
         $this->expectException(ApiScoutException::class);
         $this->expectExceptionMessage('Token not found in response at path: access_token');
         
-        $authService->getAuthHeaders($endpoint);
+        $auth_service->getAuthHeaders($endpoint);
     }
 
     public function test_invalid_json_response()
     {
-        $mockResponse = new Response(200, [], 'invalid json');
+        $mock_response = new Response(200, [], 'invalid json');
 
-        $mock = new MockHandler([$mockResponse]);
-        $handlerStack = HandlerStack::create($mock);
+        $mock = new MockHandler([$mock_response]);
+        $handler_stack = HandlerStack::create($mock);
         
-        $client = new Client(['handler' => $handlerStack]);
+        $client = new Client(['handler' => $handler_stack]);
         
-        $authService = new AuthenticationService();
-        $reflection = new \ReflectionClass($authService);
-        $clientProperty = $reflection->getProperty('client');
-        $clientProperty->setAccessible(true);
-        $clientProperty->setValue($authService, $client);
+        $auth_service = new AuthenticationService();
+        $reflection = new \ReflectionClass($auth_service);
+        $client_property = $reflection->getProperty('client');
+        $client_property->setAccessible(true);
+        $client_property->setValue($auth_service, $client);
 
         $endpoint = [
             'url' => 'https://example.com/api',
@@ -447,28 +448,29 @@ class AuthenticationServiceTest extends TestCase
         $this->expectException(ApiScoutException::class);
         $this->expectExceptionMessage('Invalid JSON response from token endpoint');
         
-        $authService->getAuthHeaders($endpoint);
+        $auth_service->getAuthHeaders($endpoint);
     }
 
+    // TODO FIX THIS TEST
     // public function test_clear_tokens()
     // {
-    //     $mockResponse = new Response(200, [], json_encode([
+    //     $mock_response = new Response(200, [], json_encode([
     //         'access_token' => 'mock-token-123',
     //         'expires_in' => 3600,
     //         'token_type' => 'Bearer'
     //     ]));
 
-    //     $mock = new MockHandler([$mockResponse, $mockResponse]); // Two responses for two calls
-    //     $handlerStack = HandlerStack::create($mock);
-    //     $handlerStack->push(Middleware::history($this->container));
+    //     $mock = new MockHandler([$mock_response, $mock_response]); // Two responses for two calls
+    //     $handler_stack = HandlerStack::create($mock);
+    //     $handler_stack->push(Middleware::history($this->container));
         
-    //     $client = new Client(['handler' => $handlerStack]);
+    //     $client = new Client(['handler' => $handler_stack]);
         
-    //     $authService = new AuthenticationService();
-    //     $reflection = new \ReflectionClass($authService);
-    //     $clientProperty = $reflection->getProperty('client');
-    //     $clientProperty->setAccessible(true);
-    //     $clientProperty->setValue($authService, $client);
+    //     $auth_service = new AuthenticationService();
+    //     $reflection = new \ReflectionClass($auth_service);
+    //     $client_property = $reflection->getProperty('client');
+    //     $client_property->setAccessible(true);
+    //     $client_property->setValue($auth_service, $client);
 
     //     $endpoint = [
     //         'url' => 'https://example.com/api',
@@ -490,35 +492,35 @@ class AuthenticationServiceTest extends TestCase
     //     ];
 
     //     // First call - should make token request
-    //     $headers1 = $authService->getAuthHeaders($endpoint);
+    //     $headers1 = $auth_service->getAuthHeaders($endpoint);
     //     $this->assertCount(1, $this->container);
 
     //     // Clear tokens
-    //     $authService->clearTokens();
+    //     $auth_service->clearTokens();
 
     //     // Second call - should make another token request
-    //     $headers2 = $authService->getAuthHeaders($endpoint);
+    //     $headers2 = $auth_service->getAuthHeaders($endpoint);
     //     $this->assertCount(2, $this->container);
     // }
 
     public function test_get_token_info()
     {
-        $mockResponse = new Response(200, [], json_encode([
+        $mock_response = new Response(200, [], json_encode([
             'access_token' => 'mock-token-123',
             'expires_in' => 3600,
             'token_type' => 'Bearer'
         ]));
 
-        $mock = new MockHandler([$mockResponse]);
-        $handlerStack = HandlerStack::create($mock);
+        $mock = new MockHandler([$mock_response]);
+        $handler_stack = HandlerStack::create($mock);
         
-        $client = new Client(['handler' => $handlerStack]);
+        $client = new Client(['handler' => $handler_stack]);
         
-        $authService = new AuthenticationService();
-        $reflection = new \ReflectionClass($authService);
-        $clientProperty = $reflection->getProperty('client');
-        $clientProperty->setAccessible(true);
-        $clientProperty->setValue($authService, $client);
+        $auth_service = new AuthenticationService();
+        $reflection = new \ReflectionClass($auth_service);
+        $client_property = $reflection->getProperty('client');
+        $client_property->setAccessible(true);
+        $client_property->setValue($auth_service, $client);
 
         $endpoint = [
             'url' => 'https://example.com/api',
@@ -537,17 +539,17 @@ class AuthenticationServiceTest extends TestCase
         ];
 
         // Get token info before authentication
-        $tokenInfo = $authService->getTokenInfo('test-key');
-        $this->assertNull($tokenInfo);
+        $token_info = $auth_service->getTokenInfo('test-key');
+        $this->assertNull($token_info);
 
         // Authenticate
-        $authService->getAuthHeaders($endpoint);
+        $auth_service->getAuthHeaders($endpoint);
 
         // Get token info after authentication
-        $tokenInfo = $authService->getTokenInfo('test-key');
-        $this->assertNotNull($tokenInfo);
-        $this->assertEquals('mock-token-123', $tokenInfo['token']);
-        $this->assertEquals('Bearer', $tokenInfo['token_type']);
-        $this->assertEquals(3600, $tokenInfo['expires_in']);
+        $token_info = $auth_service->getTokenInfo('test-key');
+        $this->assertNotNull($token_info);
+        $this->assertEquals('mock-token-123', $token_info['token']);
+        $this->assertEquals('Bearer', $token_info['token_type']);
+        $this->assertEquals(3600, $token_info['expires_in']);
     }
 }

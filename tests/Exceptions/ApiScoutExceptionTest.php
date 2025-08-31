@@ -7,9 +7,10 @@ use jcnghm\ApiScout\Exceptions\ApiScoutException;
 
 class ApiScoutExceptionTest extends TestCase
 {
+    public const TEST_ERROR_MESSAGE = 'Test error message';
     public function test_exception_creation()
     {
-        $message = 'Test error message';
+        $message = self::TEST_ERROR_MESSAGE;
         $exception = new ApiScoutException($message);
         
         $this->assertInstanceOf(ApiScoutException::class, $exception);
@@ -19,7 +20,7 @@ class ApiScoutExceptionTest extends TestCase
 
     public function test_exception_with_code()
     {
-        $message = 'Test error message';
+        $message = self::TEST_ERROR_MESSAGE;
         $code = 500;
         $exception = new ApiScoutException($message, $code);
         
@@ -29,12 +30,12 @@ class ApiScoutExceptionTest extends TestCase
 
     public function test_exception_with_previous_exception()
     {
-        $previousException = new \Exception('Previous error');
-        $message = 'Test error message';
-        $exception = new ApiScoutException($message, 0, $previousException);
+        $previous_exception = new \Exception('Previous error');
+        $message = self::TEST_ERROR_MESSAGE;
+        $exception = new ApiScoutException($message, 0, $previous_exception);
         
         $this->assertEquals($message, $exception->getMessage());
-        $this->assertSame($previousException, $exception->getPrevious());
+        $this->assertSame($previous_exception, $exception->getPrevious());
     }
 
     public function test_exception_inheritance()
@@ -47,7 +48,7 @@ class ApiScoutExceptionTest extends TestCase
 
     public function test_exception_string_representation()
     {
-        $message = 'Test error message';
+        $message = self::TEST_ERROR_MESSAGE;
         $exception = new ApiScoutException($message);
         
         $string = (string) $exception;

@@ -96,13 +96,10 @@ class GenerateComponentsCommand extends Command
     protected function generateComponents(string $endpoint): bool
     {
         try {
-            // Get generation options from command options
             $options = $this->getGenerationOptions();
             
-            // First analyze the endpoint
             $result = ApiScout::analyze($endpoint);
             
-            // Generate components
             $success = $result->generateComponents($options);
             
             return $success;
@@ -117,7 +114,6 @@ class GenerateComponentsCommand extends Command
     {
         $options = [];
 
-        // Determine what to generate based on options
         if ($this->option('livewire') && !$this->option('blade')) {
             $options['generate_blade'] = false;
             $options['generate_livewire'] = true;
@@ -125,12 +121,10 @@ class GenerateComponentsCommand extends Command
             $options['generate_blade'] = true;
             $options['generate_livewire'] = false;
         } else {
-            // Default: generate both
             $options['generate_blade'] = true;
             $options['generate_livewire'] = true;
         }
 
-        // Force overwrite if specified
         $options['force'] = $this->option('force');
 
         return $options;

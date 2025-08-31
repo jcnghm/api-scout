@@ -78,14 +78,14 @@ class ApiScoutResultTest extends TestCase
 
     public function test_get_sample_data()
     {
-        $sampleData = $this->result->getSampleData();
+        $sample_data = $this->result->getSampleData();
         
-        $this->assertIsArray($sampleData);
-        $this->assertCount(3, $sampleData);
-        $this->assertArrayHasKey('id', $sampleData[0]);
-        $this->assertArrayHasKey('name', $sampleData[0]);
-        $this->assertArrayHasKey('email', $sampleData[0]);
-        $this->assertArrayHasKey('age', $sampleData[0]);
+        $this->assertIsArray($sample_data);
+        $this->assertCount(3, $sample_data);
+        $this->assertArrayHasKey('id', $sample_data[0]);
+        $this->assertArrayHasKey('name', $sample_data[0]);
+        $this->assertArrayHasKey('email', $sample_data[0]);
+        $this->assertArrayHasKey('age', $sample_data[0]);
     }
 
     public function test_is_array()
@@ -117,41 +117,41 @@ class ApiScoutResultTest extends TestCase
 
     public function test_get_field_names()
     {
-        $fieldNames = $this->result->getFieldNames();
+        $field_names = $this->result->getFieldNames();
         
-        $this->assertIsArray($fieldNames);
-        $this->assertCount(4, $fieldNames);
-        $this->assertContains('id', $fieldNames);
-        $this->assertContains('name', $fieldNames);
-        $this->assertContains('email', $fieldNames);
-        $this->assertContains('age', $fieldNames);
+        $this->assertIsArray($field_names);
+        $this->assertCount(4, $field_names);
+        $this->assertContains('id', $field_names);
+        $this->assertContains('name', $field_names);
+        $this->assertContains('email', $field_names);
+        $this->assertContains('age', $field_names);
     }
 
     public function test_get_fields_by_type()
     {
-        $integerFields = $this->result->getFieldsByType('integer');
+        $integer_fields = $this->result->getFieldsByType('integer');
         
-        $this->assertIsArray($integerFields);
-        $this->assertCount(2, $integerFields);
-        $this->assertArrayHasKey('id', $integerFields);
-        $this->assertArrayHasKey('age', $integerFields);
+        $this->assertIsArray($integer_fields);
+        $this->assertCount(2, $integer_fields);
+        $this->assertArrayHasKey('id', $integer_fields);
+        $this->assertArrayHasKey('age', $integer_fields);
         
-        $stringFields = $this->result->getFieldsByType('string');
-        $this->assertCount(1, $stringFields);
-        $this->assertArrayHasKey('name', $stringFields);
+        $string_fields = $this->result->getFieldsByType('string');
+        $this->assertCount(1, $string_fields);
+        $this->assertArrayHasKey('name', $string_fields);
         
-        $emailFields = $this->result->getFieldsByType('email');
-        $this->assertCount(1, $emailFields);
-        $this->assertArrayHasKey('email', $emailFields);
+        $email_fields = $this->result->getFieldsByType('email');
+        $this->assertCount(1, $email_fields);
+        $this->assertArrayHasKey('email', $email_fields);
     }
 
     public function test_get_nullable_fields()
     {
-        $nullableFields = $this->result->getNullableFields();
+        $nullable_fields = $this->result->getNullableFields();
         
-        $this->assertIsArray($nullableFields);
-        $this->assertCount(1, $nullableFields);
-        $this->assertArrayHasKey('age', $nullableFields);
+        $this->assertIsArray($nullable_fields);
+        $this->assertCount(1, $nullable_fields);
+        $this->assertArrayHasKey('age', $nullable_fields);
     }
 
     public function test_to_array()
@@ -191,7 +191,7 @@ class ApiScoutResultTest extends TestCase
 
     public function test_object_response_type()
     {
-        $objectAnalysis = [
+        $object_analysis = [
             'is_array' => false,
             'is_object' => true,
             'total_records' => 1,
@@ -214,19 +214,19 @@ class ApiScoutResultTest extends TestCase
             'analyzed_at' => '2023-12-25T10:30:00Z',
         ];
         
-        $objectResult = new ApiScoutResult('user', $objectAnalysis);
+        $object_result = new ApiScoutResult('user', $object_analysis);
         
-        $this->assertFalse($objectResult->isArray());
-        $this->assertTrue($objectResult->isObject());
-        $this->assertEquals(1, $objectResult->getTotalRecords());
+        $this->assertFalse($object_result->isArray());
+        $this->assertTrue($object_result->isObject());
+        $this->assertEquals(1, $object_result->getTotalRecords());
         
-        $summary = $objectResult->getSummary();
+        $summary = $object_result->getSummary();
         $this->assertEquals('object', $summary['type']);
     }
 
     public function test_empty_analysis()
     {
-        $emptyAnalysis = [
+        $empty_analysis = [
             'is_array' => false,
             'is_object' => false,
             'total_records' => 0,
@@ -235,34 +235,34 @@ class ApiScoutResultTest extends TestCase
             'analyzed_at' => '2023-12-25T10:30:00Z',
         ];
         
-        $emptyResult = new ApiScoutResult('empty', $emptyAnalysis);
+        $empty_result = new ApiScoutResult('empty', $empty_analysis);
         
-        $this->assertFalse($emptyResult->isArray());
-        $this->assertFalse($emptyResult->isObject());
-        $this->assertEquals(0, $emptyResult->getTotalRecords());
-        $this->assertEmpty($emptyResult->getFields());
-        $this->assertNull($emptyResult->getSampleData());
+        $this->assertFalse($empty_result->isArray());
+        $this->assertFalse($empty_result->isObject());
+        $this->assertEquals(0, $empty_result->getTotalRecords());
+        $this->assertEmpty($empty_result->getFields());
+        $this->assertNull($empty_result->getSampleData());
         
-        $summary = $emptyResult->getSummary();
+        $summary = $empty_result->getSummary();
         $this->assertEquals('unknown', $summary['type']);
         $this->assertEquals(0, $summary['field_count']);
     }
 
     public function test_missing_analysis_fields()
     {
-        $incompleteAnalysis = [
+        $incomplete_analysis = [
             'is_array' => true,
             'is_object' => false,
             // Missing other fields
         ];
         
-        $incompleteResult = new ApiScoutResult('incomplete', $incompleteAnalysis);
+        $incomplete_result = new ApiScoutResult('incomplete', $incomplete_analysis);
         
-        $this->assertEquals(0, $incompleteResult->getTotalRecords());
-        $this->assertEmpty($incompleteResult->getFields());
-        $this->assertNull($incompleteResult->getSampleData());
+        $this->assertEquals(0, $incomplete_result->getTotalRecords());
+        $this->assertEmpty($incomplete_result->getFields());
+        $this->assertNull($incomplete_result->getSampleData());
         
-        $summary = $incompleteResult->getSummary();
+        $summary = $incomplete_result->getSummary();
         $this->assertEquals('array', $summary['type']);
         $this->assertEquals(0, $summary['field_count']);
         $this->assertNull($summary['analyzed_at']);
