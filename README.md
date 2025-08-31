@@ -11,8 +11,8 @@ A Laravel package for mapping and exploring REST API endpoints with automatic co
 - **API Endpoint Analysis**: Automatically analyze and map API response structures
 - **Multi-Authentication Support**: Bearer tokens, OAuth2, Basic auth, API keys, and custom token endpoints
 - **Smart Type Detection**: Detect data types including emails, URLs, UUIDs, dates, JSON, and more
-- **Livewire Component Generation**: Auto-generate Livewire components for your API data
-- **Blade Template Generation**: Create beautiful Blade views for your API responses
+- **Livewire Component Generation**: Auto-generate Livewire components for API data
+- **Blade Template Generation**: Create Blade views for your API responses
 - **Command-Line Interface**: Powerful CLI tools for setup and management
 - **Field Analysis**: Detailed field type analysis with nullable detection
 - **Token Caching**: Automatic token caching and refresh for authenticated APIs
