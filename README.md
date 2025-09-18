@@ -1,6 +1,11 @@
+<div align="center">
+  <img src="https://laravel.com/img/logomark.min.svg" alt="Laravel" width="100" height="100">
+
 # API Scout
 
 A Laravel package for mapping and exploring REST API endpoints with automatic component generation.
+
+</div>
 
 [![PHP Version](https://img.shields.io/badge/php-8.1%2B-blue.svg)](https://php.net)
 [![Laravel Version](https://img.shields.io/badge/laravel-10%2B%20%7C%2011%2B-red.svg)](https://laravel.com)
