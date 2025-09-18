@@ -5,6 +5,7 @@
 [![PHP Version](https://img.shields.io/badge/php-8.1%2B-blue.svg)](https://php.net)
 [![Laravel Version](https://img.shields.io/badge/laravel-10%2B%20%7C%2011%2B-red.svg)](https://laravel.com)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 A Laravel package for mapping and exploring REST API endpoints with automatic component generation.
 
 </div>
